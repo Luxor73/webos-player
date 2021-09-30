@@ -21,6 +21,7 @@ A custom mod webos player compact size for Home Assistant Lovelace
 * volume value
 * volume mute button
 * home, back, exit buttons
+* settings, channels list, info buttons
 * color buttons
 * logo channel background
 * source image background
