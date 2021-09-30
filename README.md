@@ -35,7 +35,7 @@ A custom mod webos player compact size for Home Assistant Lovelace
 - [slider-entity-row](https://github.com/thomasloven/lovelace-slider-entity-row)
 
 ## Prerequisites
-Almost a webos tv integrated in Home Assistant with customized sources
+At least one webos tv integrated in Home Assistant with customized sources
 ```
 webostv:
   - name: my_tv
