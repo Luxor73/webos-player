@@ -1,5 +1,32 @@
 # webos-player
-custom webos player for Home Assistant Lovelace
+A custom mod webos player compact size for Home Assistant Lovelace
+
+![wosp04](https://user-images.githubusercontent.com/47286900/135503828-a5a50469-71ab-4dca-bd35-f47422d25306.png)
+![wosp05](https://user-images.githubusercontent.com/47286900/135503838-bd0fc489-81cb-4c75-a79f-405a5596cec3.png)
+![wosp06](https://user-images.githubusercontent.com/47286900/135503851-3ff78571-b0b1-4d2f-a3ed-9a5b37e2a900.png)
+![wosp03](https://user-images.githubusercontent.com/47286900/135503813-69e47c1d-cf89-4ae3-b569-e1ef61c07982.png)
+![wosp09](https://user-images.githubusercontent.com/47286900/135503877-bd31ceb6-ee2a-41e4-a8ba-23b515ff88b6.png)
+![wosp08](https://user-images.githubusercontent.com/47286900/135503867-4eaf1517-88dc-4a96-995a-1255e02381a6.png)
+![wosp02](https://user-images.githubusercontent.com/47286900/135503789-744eed7a-a5f6-4137-8ffa-39bc92afb19f.png)
+
+# Specs
+* navigator pad
+* keynumber pad
+* sources selector
+* favorite channels selector
+* channel up/down
+* play/pause
+* forward/rewind
+* volume slider
+* volume value
+* volume mute button
+* home, back, exit buttons
+* color buttons
+* logo channel background
+* source image background
+* power on/off
+* channel/source name label
+* input text to write, notify or web search
 
 ## Requirements
 - [custom-button-card](https://github.com/custom-cards/button-card)
@@ -24,13 +51,8 @@ webostv:
         - ...
 ```
 ## Instructions
+1. Download **tv_logos** into ' **www/** ' folder, add here yours tv logos with **.png** extension
+2. Add the webos player custom template **wosp-template.yaml** to **button_card_templates:**
 
 
 
-![wosp04](https://user-images.githubusercontent.com/47286900/135503828-a5a50469-71ab-4dca-bd35-f47422d25306.png)
-![wosp05](https://user-images.githubusercontent.com/47286900/135503838-bd0fc489-81cb-4c75-a79f-405a5596cec3.png)
-![wosp06](https://user-images.githubusercontent.com/47286900/135503851-3ff78571-b0b1-4d2f-a3ed-9a5b37e2a900.png)
-![wosp03](https://user-images.githubusercontent.com/47286900/135503813-69e47c1d-cf89-4ae3-b569-e1ef61c07982.png)
-![wosp09](https://user-images.githubusercontent.com/47286900/135503877-bd31ceb6-ee2a-41e4-a8ba-23b515ff88b6.png)
-![wosp08](https://user-images.githubusercontent.com/47286900/135503867-4eaf1517-88dc-4a96-995a-1255e02381a6.png)
-![wosp02](https://user-images.githubusercontent.com/47286900/135503789-744eed7a-a5f6-4137-8ffa-39bc92afb19f.png)
