@@ -9,7 +9,7 @@ A custom mod webos player compact size for Home Assistant Lovelace
 ![wosp08](https://user-images.githubusercontent.com/47286900/135503867-4eaf1517-88dc-4a96-995a-1255e02381a6.png)
 ![wosp02](https://user-images.githubusercontent.com/47286900/135503789-744eed7a-a5f6-4137-8ffa-39bc92afb19f.png)
 
-# Specs
+# Features
 * navigator pad
 * keynumber pad
 * sources selector
@@ -23,7 +23,7 @@ A custom mod webos player compact size for Home Assistant Lovelace
 * home, back, exit buttons
 * settings, channels list, info buttons
 * color buttons
-* logo channel background
+* channel logo background
 * source image background
 * power on/off
 * channel/source name label
