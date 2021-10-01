@@ -1,0 +1,145 @@
+# WEBOS PLAYER PACKAGE
+# Add, rename and edit one copy of this package for every webos device
+
+# 1 - replace all occurences of WOSP_ENTITY with the webos player object_id
+#     E.g.: media_player.bedroom_tv --> replace WOSP_ENTITY with bedroom_tv
+# 2 - edit your favorite channels
+# 3 - if you have a webos version x, replace "Live TV" with correct name of channels source
+#     E.g.: for italian language is "Canali TV"
+template:
+  - select:
+      - name: "favorites_WOSP_ENTITY"
+        state: >
+          {% set channel = state_attr('media_player.WOSP_ENTITY', 'media_title') %}
+          {{ channel if channel != None else "favorites" }}
+        # Edit here your favorite channels, after 'favorites' field
+        # E.g.  options: >
+                # {{ [
+                #   'favorites'
+                # , 'channel 1'
+                # , 'channel 2'
+                # , 'channel 3' ] }}
+        options: >
+          {{ [
+            'favorites'
+           ] }}
+        select_option:
+          service: script.wosp_go_to_channel_WOSP_ENTITY
+          data:
+            channel: "{{ option }}"
+            player: 'media_player.WOSP_ENTITY'
+  - select:
+      - name: "sources_WOSP_ENTITY"
+        state: >
+          {% set source = state_attr('media_player.WOSP_ENTITY', 'source') %}
+          {% set sources = state_attr('media_player.WOSP_ENTITY', 'source_list') %}
+          {% if not source in sources %}sources{% else %}{{ source }}{% endif %}
+        options: "{{ ['sources'] + state_attr('media_player.WOSP_ENTITY', 'source_list') }}"
+        select_option:
+          service: script.wosp_set_source_WOSP_ENTITY
+          data:
+            tv_source: "{{ option }}"
+            player: 'media_player.WOSP_ENTITY'
+  - number:
+      - name: "wosp_volume_WOSP_ENTITY"
+        state: >
+          {% set volume = state_attr('media_player.WOSP_ENTITY', 'volume_level') %}
+          {{ (volume | float * 100) | int if volume != None else 0 }}
+        min: 0
+        max: 100
+        step: "{{ 1 }}"
+        set_value:
+          service: script.wosp_set_volume_WOSP_ENTITY
+          data:
+            volume: "{{ (value | float / 100) | round(2) }}"
+            player: 'media_player.WOSP_ENTITY'
+
+input_text:
+  wosp_text_WOSP_ENTITY: []
+
+script:
+  #Arguments: player, tv_source
+  wosp_set_source_WOSP_ENTITY:
+    mode: restart
+    sequence:
+      - condition: template
+        value_template: "{{ tv_source != 'sources' }}"
+      - choose:
+          - conditions:
+              - condition: template
+                value_template: "{{ is_state(player, 'off') }}"
+            sequence:
+              - service: media_player.turn_on
+                data:
+                  entity_id: '{{ player }}'
+              - wait_template: "{{ is_state(player, 'on') }}"
+                timeout: '00:00:30'
+                continue_on_timeout: false
+              - delay: '00:00:03'
+              - condition: template
+                value_template: "{{ not is_state_attr(player, 'source', tv_source) }}"
+              - service: media_player.select_source
+                data_template:
+                  entity_id: '{{ player }}'
+                  source: "{{ tv_source }}"
+        default:
+          - condition: template
+            value_template: "{{ not is_state_attr(player, 'source', tv_source) }}"
+          - service: media_player.select_source
+            data_template:
+              entity_id: '{{ player }}'
+              source: "{{ tv_source }}"
+
+  #Arguments: player, channel
+  wosp_go_to_channel_WOSP_ENTITY:
+    mode: restart
+    variables:
+      source: "Live TV" # Replace with correct tv channels source name
+    sequence:
+      - service: script.wosp_set_source_WOSP_ENTITY
+        data:
+          tv_source: '{{ source }}'
+          player: '{{ player }}'
+      - wait_template: "{{ is_state_attr(player, 'source', source) }}"
+        timeout: '00:00:04'
+        continue_on_timeout: false
+      - service: media_player.play_media
+        data_template:
+          entity_id: '{{ player }}'
+          media_content_id: "{{ channel }}"
+          media_content_type: channel
+
+  #Arguments: player, volume
+  wosp_set_volume_WOSP_ENTITY:
+    alias: wosp_set_volume_WOSP_ENTITY
+    sequence:
+      - condition: template
+        value_template: "{{ is_state(player, 'on') and not is_state_attr(player, 'volume_level', volume) }}"
+      - service: media_player.volume_set
+        data:
+          entity_id: '{{ player }}'
+          volume_level: '{{ volume }}'    
+
+input_select:
+  panel_WOSP_ENTITY:
+    options:
+      - 'wosp-navi'
+      - 'wosp-empty-panel'
+      - 'wosp-home'
+      - 'wosp-keynumber'
+      - 'wosp-write'
+    initial: wosp-navi
+
+automation:
+  - alias: 'input_text_WOSP_ENTITY'
+    trigger:
+      - platform: state
+        entity_id: input_text.wosp_text_WOSP_ENTITY
+    action:
+      - service: webostv.command
+        data:
+          entity_id: media_player.WOSP_ENTITY
+          command: "com.webos.service.ime/insertText"
+          payload:
+            text: "{{ states('input_text.wosp_text_WOSP_ENTITY') }}"
+            replace: True

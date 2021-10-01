@@ -1,0 +1,1009 @@
+# Add follows to button_card_templates:
+wosp-base-button:
+  show_name: false
+  show_state: false
+  color: var(--wosp-icon-color)
+  styles:
+    card:
+      - background-color: transparent
+      - box-shadow: 0px 0px
+      - padding: 0px
+
+wosp-format-4040:
+  styles:
+    card:
+      - width: 40px
+      - height: 40px
+
+wosp-format-4045:
+  styles:
+    card:
+      - width: 40px
+      - height: 45px
+
+wosp-format-4050:
+  styles:
+    card:
+      - width: 40px
+      - height: 50px
+
+wosp-format-5040:
+  styles:
+    card:
+      - width: 50px
+      - height: 40px
+
+wosp-format-6045:
+  styles:
+    card:
+      - width: 60px
+      - height: 45px
+
+wosp-icon-2020:
+  styles:
+    icon:
+      - height: 20px
+      - width: 20px
+
+wosp-icon-2424:
+  styles:
+    icon:
+      - height: 24px
+      - width: 24px
+
+wosp-icon-2828:
+  styles:
+    icon:
+      - height: 28px
+      - width: 28px
+
+wosp-color-button:
+  show_name: false
+  show_state: false
+  show_icon: false
+  tap_action:
+    action: call-service
+    service: webostv.button
+    service_data:
+      entity_id: '[[[ return variables.player_entity  ]]]'
+      button: '[[[ return variables.button ]]]'
+  styles:
+    card:
+      - background-color: transparent
+      - box-shadow: none
+      - height: 40px
+      - width: 40px
+      - padding: 0px
+      - filter: brightness(75%)
+    custom_fields:
+      pigment:
+        - background-color: '[[[ return variables.color ]]]'
+        - border-radius: 20%
+        - border: 1px solid var(--wosp-button-border-color)
+        - position: absolute
+        - left: 10px
+        - top: 12px
+        - height: 16px
+        - width: 20px
+  custom_fields:
+    pigment: ''
+
+wosp-ch-panel:
+  template: [wosp-base-button, wosp-format-6045, wosp-icon-2828]
+  show_icon: false
+  styles:
+    custom_fields:
+      ico:
+        - background: "linear-gradient(rgba(255,255,255, .2), var(--wosp-background-shadow)) no-repeat"
+        - border-radius: 20%
+        - box-shadow: 0px 0px 3px 0px var(--wosp-icon-color)
+        - position: absolute
+        - left: '[[[ return (variables.step === 1) ? "0px" : "10px" ]]]'
+        - top: 6px
+        - height: 36px
+        - width: 50px
+  custom_fields:
+    ico: >
+      [[[
+          var panel = states[entity.entity_id].state;
+          var panels = ["wosp-navi", "wosp-empty-panel","wosp-home", "wosp-keynumber", "wosp-write"];
+          var icons = ["mdi:gamepad", "mdi:crop-free", "mdi:table", "mdi:dialpad", "mdi:format-text"];
+          var index = panels.indexOf(panel) + variables.step;
+          if(index < 0) index = panels.length - 1;
+          if(index > panels.length - 1) index = 0;
+          var margin = ((variables.step === 1) ? "8px" : "-8px");
+          return `<ha-icon
+            icon=${icons[index]}
+            style="width: 24px;
+                   height: 24px;
+                   color: var(--wosp-select-icon-color);
+                   margin-top: 4px;
+                   margin-left: ${margin};"></ha-icon>`
+        ]]]
+
+wosp-empty-panel:
+  show_name: false
+  show_state: false
+  show_icon: false
+  tap_action: none
+  styles:
+    card:
+      - padding: 0px
+      - height: 120px
+      - width: 160px
+      - background-color: transparent
+      - box-shadow: 0px 0px
+
+wosp-panel-container:
+  template: wosp-empty-panel
+  styles:
+    grid:
+      - grid-template-areas: '"panel"'
+  custom_fields:
+    panel:
+      card:
+        type: custom:button-card
+        entity: >
+          [[[ if(states[entity.entity_id].state === 'wosp-write') return variables.text_entity; else return 'none' ]]]
+        template: "[[[ return states[entity.entity_id].state ]]]"
+        variables:
+          panel_entity: '[[[ return entity.entity_id ]]]'
+          text_entity: "[[[ return variables.text_entity ]]]"
+          player_entity: '[[[ return variables.player_entity  ]]]'
+
+wosp-home:
+  template: wosp-empty-panel
+  styles:
+    grid:
+      - grid-template-areas: '". . . . . . . . . . ."
+                              ". menu_bt menu_bt . cc_butt cc_butt cc_butt . info_butt info_butt ."
+                              "red_butt red_butt green_butt green_butt green_butt yellow_butt yellow_butt yellow_butt yellow_butt blue_butt blue_butt"
+                              ". . . . . . . . . . ."'
+      - grid-template-columns: 10px 30px 10px 10px 20px 10px 10px 10px 10px 30px 10px
+      - grid-template-rows: 20px 40px 40px 20px
+  custom_fields:
+    menu_bt:
+        card:
+          type: custom:button-card
+          template: [wosp-base-button, wosp-format-4040, wosp-icon-2424]
+          icon: mdi:cog-outline
+          tap_action:
+            action: call-service
+            service: webostv.button
+            service_data:
+              entity_id: '[[[ return variables.player_entity ]]]'
+              button: "MENU"
+    blue_butt:
+        card:
+          type: custom:button-card
+          template: wosp-color-button
+          variables:
+            color: SteelBlue
+            button: "BLUE"
+            player_entity: '[[[ return variables.player_entity  ]]]'
+    red_butt:
+        card:
+          type: custom:button-card
+          template: wosp-color-button
+          variables:
+            color: IndianRed
+            button: "RED"
+            player_entity: '[[[ return variables.player_entity  ]]]'
+    yellow_butt:
+        card:
+          type: custom:button-card
+          template: wosp-color-button
+          variables:
+            color: Orange
+            button: "YELLOW"
+            player_entity: '[[[ return variables.player_entity  ]]]'
+    green_butt:
+        card:
+          type: custom:button-card
+          template: wosp-color-button
+          variables:
+            color: MediumSeaGreen
+            button: "GREEN"
+            player_entity: '[[[ return variables.player_entity  ]]]'
+    cc_butt:
+        card:
+          type: custom:button-card
+          template: [wosp-base-button, wosp-format-4040]
+          show_icon: false
+          tap_action:
+            action: call-service
+            service: webostv.button
+            service_data:
+              entity_id: '[[[ return variables.player_entity ]]]'
+              button: "CC"
+          styles:
+            custom_fields:
+              subtitle:
+                - border-radius: 20%
+                - border: 1px solid var(--wosp-button-border-color)
+                - color: var(--wosp-icon-color)
+                - position: absolute
+                - left: 6px
+                - top: 10px
+                - height: 20px
+                - width: 28px
+                - font-size: 15px
+          custom_fields:
+            subtitle: 'sub'
+    info_butt:
+        card:
+          type: custom:button-card
+          template: [wosp-base-button, wosp-format-4040, wosp-icon-2424]
+          icon: mdi:information-variant
+          tap_action:
+            action: call-service
+            service: webostv.button
+            service_data:
+              entity_id: '[[[ return variables.player_entity ]]]'
+              button: "INFO"
+
+wosp-navi:
+  template: wosp-empty-panel
+  styles:
+    grid:
+      - grid-template-areas: '". . up_bt . ."
+                              ". left_bt enter_bt right_bt ."
+                              ". . down_bt . ."'
+      - grid-template-columns: 5px 50px 50px 50px 5px
+      - grid-template-rows: 40px 40px 40px
+  custom_fields:
+    down_bt:
+        card:
+          type: custom:button-card
+          template: [wosp-base-button, wosp-format-4040, wosp-icon-2424]
+          icon: mdi:chevron-down
+          tap_action:
+            action: call-service
+            service: webostv.button
+            service_data:
+              entity_id: '[[[ return variables.player_entity ]]]'
+              button: "DOWN"
+          hold_action:
+            action: call-service
+            service: webostv.button
+            service_data:
+              entity_id: '[[[ return variables.player_entity ]]]'
+              button: "DOWN"
+            repeat: 50
+    up_bt:
+        card:
+          type: custom:button-card
+          template: [wosp-base-button, wosp-format-4040, wosp-icon-2424]
+          icon: mdi:chevron-up
+          tap_action:
+            action: call-service
+            service: webostv.button
+            service_data:
+              entity_id: '[[[ return variables.player_entity ]]]'
+              button: "UP"
+          hold_action:
+            action: call-service
+            service: webostv.button
+            service_data:
+              entity_id: '[[[ return variables.player_entity ]]]'
+              button: "UP"
+            repeat: 50
+    left_bt:
+        card:
+          type: custom:button-card
+          template: [wosp-base-button, wosp-format-4040, wosp-icon-2424]
+          icon: mdi:chevron-left
+          tap_action:
+            action: call-service
+            service: webostv.button
+            service_data:
+              entity_id: '[[[ return variables.player_entity ]]]'
+              button: "LEFT"
+          hold_action:
+            action: call-service
+            service: webostv.button
+            service_data:
+              entity_id: '[[[ return variables.player_entity ]]]'
+              button: "LEFT"
+            repeat: 50         
+    right_bt:
+        card:
+          type: custom:button-card
+          template: [wosp-base-button, wosp-format-4040, wosp-icon-2424]
+          icon: mdi:chevron-right
+          tap_action:
+            action: call-service
+            service: webostv.button
+            service_data:
+              entity_id: '[[[ return variables.player_entity ]]]'
+              button: "RIGHT"
+          hold_action:
+            action: call-service
+            service: webostv.button
+            service_data:
+              entity_id: '[[[ return variables.player_entity ]]]'
+              button: "RIGHT"
+            repeat: 50      
+    enter_bt:
+        card:
+          type: custom:button-card
+          template: [wosp-base-button, wosp-format-4040, wosp-icon-2424]
+          icon: mdi:image-filter-center-focus-weak
+          tap_action:
+            action: call-service
+            service: webostv.button
+            service_data:
+              entity_id: '[[[ return variables.player_entity ]]]'
+              button: "ENTER"
+
+wosp-keynumber:
+  show_name: false
+  show_state: false
+  show_icon: false
+  styles:
+    card:
+      - padding: 0px
+      - height: 120px
+      - width: 160px
+      - background-color: transparent
+      - box-shadow: 0px 0px
+    grid:
+      - grid-template-areas: '"one_butt two_butt three_butt list_butt"
+                              "for_butt five_butt six_butt ."
+                              "seven_butt eight_butt nine_butt zero_butt"'
+      - grid-template-columns: 40px 40px 40px 40px
+      - grid-template-rows: 40px 40px 40px
+  custom_fields:
+    one_butt:
+        card:
+          type: custom:button-card
+          template: [wosp-base-button, wosp-format-4040, wosp-icon-2424]
+          icon: mdi:numeric-1
+          tap_action:
+            action: call-service
+            service: webostv.button
+            service_data:
+              entity_id: '[[[ return variables.player_entity ]]]'
+              button: "1"
+    two_butt:
+        card:
+          type: custom:button-card
+          template: [wosp-base-button, wosp-format-4040, wosp-icon-2424]
+          icon: mdi:numeric-2
+          tap_action:
+            action: call-service
+            service: webostv.button
+            service_data:
+              entity_id: '[[[ return variables.player_entity ]]]'
+              button: "2"
+    three_butt:
+        card:
+          type: custom:button-card
+          template: [wosp-base-button, wosp-format-4040, wosp-icon-2424]
+          icon: mdi:numeric-3
+          tap_action:
+            action: call-service
+            service: webostv.button
+            service_data:
+              entity_id: '[[[ return variables.player_entity ]]]'
+              button: "3"
+    for_butt:
+        card:
+          type: custom:button-card
+          template: [wosp-base-button, wosp-format-4040, wosp-icon-2424]
+          icon: mdi:numeric-4
+          tap_action:
+            action: call-service
+            service: webostv.button
+            service_data:
+              entity_id: '[[[ return variables.player_entity ]]]'
+              button: "4"
+    five_butt:
+        card:
+          type: custom:button-card
+          template: [wosp-base-button, wosp-format-4040, wosp-icon-2424]
+          icon: mdi:numeric-5
+          tap_action:
+            action: call-service
+            service: webostv.button
+            service_data:
+              entity_id: '[[[ return variables.player_entity ]]]'
+              button: "5"
+    six_butt:
+        card:
+          type: custom:button-card
+          template: [wosp-base-button, wosp-format-4040, wosp-icon-2424]
+          icon: mdi:numeric-6
+          tap_action:
+            action: call-service
+            service: webostv.button
+            service_data:
+              entity_id: '[[[ return variables.player_entity ]]]'
+              button: "6"
+    seven_butt:
+        card:
+          type: custom:button-card
+          template: [wosp-base-button, wosp-format-4040, wosp-icon-2424]
+          icon: mdi:numeric-7
+          tap_action:
+            action: call-service
+            service: webostv.button
+            service_data:
+              entity_id: '[[[ return variables.player_entity ]]]'
+              button: "7"
+    eight_butt:
+        card:
+          type: custom:button-card
+          template: [wosp-base-button, wosp-format-4040, wosp-icon-2424]
+          icon: mdi:numeric-8
+          tap_action:
+            action: call-service
+            service: webostv.button
+            service_data:
+              entity_id: '[[[ return variables.player_entity ]]]'
+              button: "8"
+    nine_butt:
+        card:
+          type: custom:button-card
+          template: [wosp-base-button, wosp-format-4040, wosp-icon-2424]
+          icon: mdi:numeric-9
+          tap_action:
+            action: call-service
+            service: webostv.button
+            service_data:
+              entity_id: '[[[ return variables.player_entity ]]]'
+              button: "9"
+    zero_butt:
+        card:
+          type: custom:button-card
+          template: [wosp-base-button, wosp-format-4040, wosp-icon-2424]
+          icon: mdi:numeric-0
+          tap_action:
+            action: call-service
+            service: webostv.button
+            service_data:
+              entity_id: '[[[ return variables.player_entity ]]]'
+              button: "0"
+    list_butt:
+        card:
+          type: custom:button-card
+          template: [wosp-base-button, wosp-format-4040, wosp-icon-2424]
+          icon: mdi:format-list-numbered
+          tap_action:
+            action: call-service
+            service: webostv.button
+            service_data:
+              entity_id: '[[[ return variables.player_entity ]]]'
+              button: "DASH"
+
+wosp-write:
+  entity: '[[[ return entity.entity_id ]]]'
+  show_name: false
+  show_state: false
+  show_icon: false
+  styles:
+    card:
+      - padding: 0px
+      - height: 120px
+      - width: 160px
+      - background-color: transparent
+      - box-shadow: 0px 0px
+    grid:
+      - grid-template-areas: '". . . . ."
+                              ". text_field text_field text_field text_field"
+                              ". . note_bt web_bt enter_bt"
+                              ". . . . ."'
+      - grid-template-columns: 5px 5px 50px 50px 50px
+      - grid-template-rows: 20px 40px 40px 20px
+  custom_fields:
+    note_bt:
+        card:
+          type: custom:button-card
+          template: [wosp-base-button, wosp-format-5040, wosp-icon-2424]
+          icon: mdi:send-outline
+          tap_action:
+            action: call-service
+            service: '[[[ return ("notify." + variables.player_entity.split(".")[1]) ]]]'
+            service_data:
+              message: '[[[ return entity.state ]]]'
+    enter_bt:
+        card:
+          type: custom:button-card
+          template: [wosp-base-button, wosp-format-5040, wosp-icon-2424]
+          icon: mdi:subdirectory-arrow-left
+          tap_action:
+            action: call-service
+            service: webostv.command
+            service_data:
+              entity_id: '[[[ return variables.player_entity ]]]'
+              command: "com.webos.service.ime/sendEnterKey"
+    web_bt:
+        card:
+          type: custom:button-card
+          template: [wosp-base-button, wosp-format-5040, wosp-icon-2424]
+          icon: mdi:search-web
+          tap_action:
+            action: call-service
+            service: webostv.command
+            service_data:
+              entity_id: '[[[ return variables.player_entity ]]]'
+              command: "system.launcher/open"
+              payload:
+                target: >
+                  [[[ 
+                    var phrase = `${entity.state}`.replaceAll(" ", "+" );
+                    return ("https://www.google.com/search?q=" + phrase + "&ie=UTF-8");
+                  ]]]
+    text_field:
+      card:
+        type: entities
+        card_mod:
+          style: |
+            ha-card {
+              background: linear-gradient(rgba(255,255,255, .2), var(--wosp-background-shadow)) no-repeat;
+              box-shadow: none;
+              border-radius: 10%;
+            }
+            div {
+              padding: 0px;
+            }
+        entities:
+          - entity: "[[[ return entity.entity_id ]]]"
+            icon: mdi:pencil-outline
+            card_mod:
+              style:
+                hui-generic-entity-row:
+                  $: |
+                    .info {
+                      display: none;
+                    }
+                    state-badge {
+                      color: var(--wosp-icon-color);
+                      position: absolute;
+                      width: 30px;
+                    }
+                  paper-input:
+                    $:
+                      paper-input-container:
+                        $: |
+                          .underline .unfocused-line {
+                            border-color: var(--wosp-inactive-color);
+                            margin-left: 10px;
+                          }
+                          .underline .focused-line {
+                            border-color: var(--wosp-icon-accent-color);
+                            margin-left: 10px;
+                          }
+                      .: |
+                        paper-input-container iron-input {
+                          color: var(--wosp-text-color);
+                          width: 120px;
+                          margin-left: 30px;
+                        }
+
+wosp-select:
+  template: [wosp-base-button, wosp-format-4045]
+  styles:
+    grid:
+      - grid-template-areas: '"combo"'
+  custom_fields:
+    combo:
+      card:
+        type: entities
+        card_mod:
+          style: |
+            ha-card {
+              background-color: transparent;
+              box-shadow: none;
+              height: 45px;
+              width: 40px;
+              --iron-icon-fill-color: var(--wosp-iron-icon-color);
+            }     
+            div {
+              padding: 0px;
+            }
+        entities:
+          - entity: '[[[ return entity.entity_id ]]]'
+            card_mod:
+              style:
+                ha-paper-dropdown-menu:
+                  $:
+                    paper-menu-button:
+                      .dropdown-trigger:
+                        paper-input:
+                          $:
+                            paper-input-container:
+                              $: |
+                                .floated-label-placeholder {
+                                  height: 0px;
+                                }
+                                .underline {
+                                  display: none;
+                                }
+                                .input-wrapper {
+                                  height: 45px;
+                                }
+                              .: |
+                                label {
+                                  display: none;
+                                }
+                                paper-input-container {
+                                  padding: 0px;
+                                  height: 45px;
+                                  width: 40px;
+                                }
+                                iron-input {
+                                  display: none;
+                                }
+                        .: |
+                          iron-icon {
+                            width: 40px;
+                            height: 24px;
+                            margin-top: 21px;
+                          }
+                  .: |
+                    :host {
+                      padding: 0px;
+                      width: 40px;
+                    } 
+                    :host state-badge {
+                      display: none;
+                    }
+                    :host ha-paper-dropdown-menu {
+                      margin-left: 0px;
+                    }
+
+wosp:
+  #triggers_update: ['[[[ return variables.panel_entity ]]]']
+  variables:
+    bg_url: '[[[ var link = entity.attributes.entity_picture; return (link ? link : "/local/tv_logos/no_logo.png") ]]]'
+    logo_url: '[[[ var title = entity.attributes.media_title; 
+                  return (title ? ("/local/tv_logos/" + title + ".png") : "/local/tv_logos/no_logo.png") ]]]'
+    panel_entity: '[[[ return ("input_select.panel_" + entity.entity_id.split(".")[1]) ]]]'
+    text_entity: '[[[ return ("input_text.wosp_text_" + entity.entity_id.split(".")[1]) ]]]'
+  state:
+    - operator: template
+      value: '[[[ return entity.attributes.is_volume_muted == true ]]]'
+      styles:
+        card:
+          - --wosp-volume-color: var(--wosp-inactive-color)
+          - --wosp-volume-slider-active-color: transparent
+          - --wosp-volume-pin-color: var(--wosp-background-shadow)
+    - value: 'on'
+    - operator: default
+      icon: mdi:television-off
+      styles:
+        card:
+          - height: 48px
+          - background-image: ''
+          - --wosp-icon-color: var(--paper-item-icon-color)
+          - --wosp-icon-accent-color: var(--primary-text-color)
+          - --wosp-text-color: var(--primary-text-color)
+          - --wosp-iron-icon-color: var(--disabled-text-color)
+          - --wosp-select-icon-color: var(--paper-item-icon-color)
+
+  show_label: true
+  tap_action:
+    action: more-info
+  name: '[[[ return entity.attributes.friendly_name.toUpperCase().replaceAll("_", " ") ]]]'
+  icon: mdi:television
+  label: >
+    [[[ var title = entity.attributes.media_title;
+        var source = entity.attributes.source; 
+        return (title ? title : source ? source : "") ]]]
+  styles:
+    card:
+      - padding: 3px
+      - height: 230px
+      - background-image: >
+          [[[
+            return [`linear-gradient(323deg, rgba(0, 0, 0,.4), rgba(0, 0, 0,.2) 45%)`,
+                    `linear-gradient(127deg, rgba(0, 0, 0,.4), rgba(0, 0, 0,.2) 45%)`,
+                `url("${variables.logo_url}")`,
+                    `linear-gradient(233deg, rgba(0, 0, 0,.1), rgba(0, 0, 0,.1) 35%)`,
+                    `linear-gradient(37deg, rgba(0, 0, 0,.3), rgba(0, 0, 0,.1) 45%)`,
+                `url("${variables.bg_url}")`];
+          ]]]
+      - background-size: cover, cover, auto 90px, cover, cover, cover  # auto 90px 120px auto
+      - background-position: center, center, left 25% center, center, center, center #left 42px center# right 14px center #right 4px bottom 40px
+      - background-repeat: no-repeat
+      # Card colors
+      - --wosp-background-shadow: rgba(0, 0, 0, .2)
+      - --wosp-inactive-color: rgba(255,255,255,0.7)
+        # volume colors
+      - --wosp-volume-color: var(--accent-color)
+      - --wosp-volume-pin-color: var(--accent-color)
+      - --wosp-volume-slider-active-color: var(--accent-color)
+      - --wosp-volume-start-color: rgba(255,255,255,0.30)
+        # button colors
+      - --wosp-button-border-color: var(--wosp-inactive-color)
+      - --wosp-text-color: white
+      - --wosp-panel: 'wosp-home'
+        # icon colors
+      - --wosp-icon-accent-color: 'var(--accent-color)'
+      - --wosp-icon-color: white
+      - --wosp-iron-icon-color: var(--accent-color)
+      - --wosp-select-icon-color: white
+    name:
+      - justify-self: start
+      - align-self: start
+      - padding-top: 11px
+      - padding-left: 14px
+      - font-size: 14px
+      - color: var(--wosp-text-color)
+    label:
+      - justify-self: start
+      - padding-left: 14px
+      - align-self: center
+      - font-size: 12px
+      - color: var(--wosp-text-color)
+      - font-weight: bold
+    icon:
+      - width: 24px
+      - color: var(--wosp-icon-color)
+    grid:
+      - grid-template-areas: '"i       n      n         fav_icon      sources_icon  sources_icon sources_icon power_bt    "
+                              ".       l      l         fav_combo     source_combo  source_combo source_combo power_bt    "
+                              ".       .      .         back_bt       home_bt       home_bt      home_bt      exit_bt     "
+                              "navi    navi   navi      back_bt       home_bt       home_bt      home_bt      exit_bt     "
+                              "navi    navi   navi      ch_down_panel ch_down_panel panel_icon   ch_up_panel  ch_up_panel "
+                              "navi    navi   navi      ch_down_bt    ch_down_bt    .            ch_up_bt     ch_up_bt    "
+                              ".       .      .         ch_down_bt    ch_down_bt    .            ch_up_bt     ch_up_bt    "
+                              "mute_bt volume vol_value prev_tr_bt    play_p_bt     play_p_bt    play_p_bt    next_tr_bt  "'
+      - grid-template-columns: 40px    auto   20px      40px          8px           24px         8px          40px
+      - grid-template-rows: 40px 5px 10px 40px 45px 35px 10px 40px
+    custom_fields:
+      volume:
+        - align-self: end
+      source_combo:
+        - align-self: end
+      fav_combo:
+        - align-self: end
+      next_tr_bt:
+        - align-self: end
+      navi:
+        - justify-self: center
+        # - position: relative
+      ch_down_panel:
+        - justify-self: start
+      ch_up_panel:
+        - justify-self: end
+      ch_down_bt:
+        - justify-self: start
+      ch_up_bt:
+        - justify-self: end
+
+  custom_fields:
+    sources_icon: >
+      [[[ return `<ha-icon icon="mdi:format-list-bulleted"
+            style="width: 24px; height: 24px; color: var(--wosp-select-icon-color);"></ha-icon>` ]]]
+    fav_icon: >
+      [[[ return `<ha-icon icon="mdi:star-outline"
+            style="width: 24px; height: 24px; color: var(--wosp-select-icon-color);"></ha-icon>` ]]]
+    panel_icon: >
+      [[[ return `<ha-icon icon="mdi:unfold-more-vertical"
+            style="width: 24px; height: 24px; color: var(--accent-color);"></ha-icon>` ]]]
+    vol_value: >
+      [[[
+        var value = states[entity.entity_id].attributes.volume_level;
+        var volume = (value ? Math.round(value*100) : '')
+        return `<span><span style="color: var(--wosp-volume-color); font-size: 15px;">${volume}</span>`
+      ]]]
+    power_bt:
+        card: 
+          type: custom:button-card
+          entity: '[[[ return entity.entity_id ]]]'
+          template: wosp-base-button
+          icon: mdi:power
+          tap_action:
+            action: toggle
+          styles:
+            card:
+              - height: 45px
+              - width: 40px
+            icon:
+              - color: var(--wosp-icon-accent-color)
+              - align-self: start
+              - padding-top: 9px
+              - height: 24px
+              - width: 24px
+    mute_bt:
+        card:
+          type: custom:button-card
+          entity: '[[[ return entity.entity_id ]]]'
+          template: [wosp-base-button, wosp-format-4040, wosp-icon-2424]
+          icon: mdi:volume-high
+          tap_action:
+            action: call-service
+            service: media_player.volume_mute
+            service_data:
+              entity_id: entity
+              is_volume_muted: '[[[ if (entity.attributes.is_volume_muted == false) return "true"; else return "false" ]]]'
+          state:
+            - operator: template
+              value: '[[[ return entity.attributes.is_volume_muted == true ]]]'
+              icon: mdi:volume-off
+              styles:
+                icon:
+                  - color: var(--wosp-icon-accent-color)
+            - value: 'on'
+              styles:
+                icon: 
+                  - color: white
+    next_tr_bt:
+        card:
+          type: custom:button-card
+          entity: '[[[ return entity.entity_id ]]]'
+          template: [wosp-base-button, wosp-format-4040, wosp-icon-2424]
+          icon: mdi:skip-next
+          tap_action:
+            action: call-service
+            service: media_player.media_next_track
+            service_data:
+              entity_id: entity
+    prev_tr_bt:
+        card:
+          type: custom:button-card
+          entity: '[[[ return entity.entity_id ]]]'
+          template: [wosp-base-button, wosp-format-4040, wosp-icon-2424]
+          icon: mdi:skip-previous
+          
+          tap_action:
+            action: call-service
+            service: media_player.media_previous_track
+            service_data:
+              entity_id: entity
+    play_p_bt:
+        card:
+          type: custom:button-card
+          entity: '[[[ return entity.entity_id ]]]'
+          template: [wosp-base-button, wosp-format-4040, wosp-icon-2424]
+          icon: mdi:play-pause
+          tap_action:
+            action: call-service
+            service: media_player.media_play_pause
+            service_data:
+              entity_id: entity
+    back_bt:
+        card:
+          type: custom:button-card
+          entity: '[[[ return entity.entity_id ]]]'
+          template: [wosp-base-button, wosp-format-4050, wosp-icon-2020]
+          icon: mdi:undo-variant
+          tap_action:
+            action: call-service
+            service: webostv.button
+            service_data:
+              entity_id: '[[[ return entity.entity_id ]]]'
+              button: "BACK"
+    home_bt:
+        card:
+          type: custom:button-card
+          entity: '[[[ return entity.entity_id ]]]'
+          template: [wosp-base-button, wosp-format-4050, wosp-icon-2828]
+          icon: mdi:home-outline
+          tap_action:
+            action: call-service
+            service: webostv.button
+            service_data:
+              entity_id: '[[[ return entity.entity_id ]]]'
+              button: "HOME"
+    exit_bt:
+        card:
+          type: custom:button-card
+          entity: '[[[ return entity.entity_id ]]]'
+          template: [wosp-base-button, wosp-format-4050, wosp-icon-2020]
+          icon: mdi:location-exit
+          tap_action:
+            action: call-service
+            service: webostv.button
+            service_data:
+              entity_id: '[[[ return entity.entity_id ]]]'
+              button: "EXIT"
+    ch_up_bt:
+        card:
+          type: custom:button-card
+          entity: '[[[ return entity.entity_id ]]]'
+          template: [wosp-base-button, wosp-format-6045, wosp-icon-2424]
+          icon: mdi:step-forward
+          tap_action:
+            action: call-service
+            service: webostv.button
+            service_data:
+              entity_id: entity
+              button: "CHANNELUP"
+    ch_down_bt:
+        card:
+          type: custom:button-card
+          entity: '[[[ return entity.entity_id ]]]'
+          template: [wosp-base-button, wosp-format-6045, wosp-icon-2424]
+          icon: mdi:step-backward
+          tap_action:
+            action: call-service
+            service: webostv.button
+            service_data:
+              entity_id: entity
+              button: "CHANNELDOWN"
+    ch_up_panel:
+        card:
+          type: custom:button-card
+          entity: '[[[ return variables.panel_entity ]]]'
+          variables:
+            step: 1
+          template: wosp-ch-panel
+          tap_action:
+            action: call-service
+            service: input_select.select_next
+            service_data:
+              entity_id: '[[[ return variables.panel_entity ]]]'
+    ch_down_panel:
+        card:
+          type: custom:button-card
+          entity: '[[[ return variables.panel_entity ]]]'
+          variables:
+            step: -1
+          template: wosp-ch-panel
+          tap_action:
+            action: call-service
+            service: input_select.select_previous
+            service_data:
+              entity_id: '[[[ return variables.panel_entity ]]]'
+    source_combo:
+      card:
+        type: custom:button-card
+        entity: '[[[ return "select.sources_" + entity.entity_id.split(".")[1] ]]]'
+        template: wosp-select
+    fav_combo:
+      card:
+        type: 'custom:button-card'
+        entity: '[[[ return "select.favorites_" + entity.entity_id.split(".")[1] ]]]'
+        template: wosp-select
+    volume:
+      card:
+        type: entities
+        card_mod:
+          style: |
+            ha-card {
+              background-color: transparent;
+              box-shadow: none;
+            }
+            div {
+              padding: 0px;
+            }
+        entities:
+          - type: custom:slider-entity-row
+            entity: '[[[ return "number.wosp_volume_" + entity.entity_id.split(".")[1] ]]]'
+            full_row: true
+            card_mod:
+              style: |
+                .wrapper {
+                  height: 70px !important;
+                  align-items: end !important;
+                }
+                ha-slider{
+                  max-width: unset;
+                  height: 40px;
+                  margin-top: 30px !important;
+                  padding-left: 1px;
+                }
+                .state{
+                  display: none;
+                }
+                :host{
+                  font-size: 18px !important;
+                  --paper-slider-active-color: var(--wosp-volume-slider-active-color);
+                  --paper-slider-container-color: var(--wosp-inactive-color);
+                  --paper-slider-knob-color: var(--wosp-volume-color);
+                  --paper-slider-pin-color: var(--wosp-volume-pin-color);
+                  --paper-slider-pin-start-color: var(--wosp-volume-start-color);
+                  --paper-slider-font-color: var(--wosp-text-color);
+                  --paper-slider-knob-start-color: var(--wosp-volume-start-color);
+                }
+    navi:
+        card:
+          type: custom:button-card
+          entity: '[[[ return variables.panel_entity ]]]'
+          template: wosp-panel-container
+          variables:
+            text_entity: '[[[ return variables.text_entity ]]]'
+            player_entity: '[[[ return entity.entity_id ]]]'
