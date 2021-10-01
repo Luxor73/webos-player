@@ -56,7 +56,7 @@ webostv:
 2. Add the webos player custom template **wosp-template.yaml** to **button_card_templates:**
 3. ### Make a webos player to control a tv
    Add a package **wosp-package.yaml**  into the packages folder, and rename it to refer the tv.
-   Ex: wosp-package_bedroom.yaml or wosp-package_livingroom.yaml
+   Ex: wosp-package_bedroom.yaml or wosp-package_livingroom.yaml.
    Into the renamed package:
      * replace all occurences of **WOSP_ENTITY** with the webos media_player object_id
        Ex: media_player.**bedroom_tv** --> replace WOSP_ENTITY with bedroom_tv
