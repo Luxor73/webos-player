@@ -60,7 +60,7 @@ webostv:
    Into the renamed package:
      * replace all occurences of **WOSP_ENTITY** with the webos media_player object_id.  
        E.g.: media_player.**bedroom_tv** --> replace **WOSP_ENTITY** with **bedroom_tv**
-     * edit your favorite channels after **'favorites'** field
+     * edit your favorite channels after **'favorites'** field  
        E.g.:
        ```
          options: >
@@ -76,7 +76,8 @@ webostv:
     E.g: for italian language is "Canali TV"  
     In this case need modify the name on the package, replacing "Live TV" with correct name of tv channels source
 
-    From ```
+    From
+    ```
     variables:
       source: "Live TV"
     ```
