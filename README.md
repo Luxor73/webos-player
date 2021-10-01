@@ -52,14 +52,14 @@ webostv:
         - ...
 ```
 ## Instructions
-1. Download **tv_logos** into ' **www/** ' folder, add here yours tv logos with **.png** extension
+1. Put **tv_logos** folder into ' **www/** ' directory, add here yours tv logos with **.png** extension
 2. Add the webos player custom template **wosp-template.yaml** to **button_card_templates:**
 3. Add a package **wosp_package.yaml**  into the packages folder, and rename it for one specific tv device.  
    E.g.: *wosp_package_my_tv.yaml* or *wosp_package_bedroom.yaml* or *wosp_package_livingroom.yaml*.  
      
    Into the renamed package:
      * replace all occurences of **WOSP_ENTITY** with the webos media_player object_id.  
-       E.g.: media_player.**bedroom_tv** --> replace **WOSP_ENTITY** with **bedroom_tv**
+       E.g.: media_player.**my_tv** --> replace **WOSP_ENTITY** with **my_tv**
      * edit your favorite channels after **'favorites'** field  
        E.g.:
        ```
@@ -84,11 +84,12 @@ webostv:
        variables:
          source: "Canali TV"
        ```
-   \*Repeat step 3 for every tv device  
-## Add webos player to lovelace  
-      ```
+   #### * Repeat step 3 for every tv device  
+## Adding webos player to lovelace  
+```
+  - cards:  
       - type: 'custom:button-card'
-        entity: media_player.tv_camera
+        entity: media_player.my_tv
         template: wosp
-      ```
+```
  
