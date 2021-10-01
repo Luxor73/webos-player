@@ -54,15 +54,24 @@ webostv:
 ## Instructions
 1. Download **tv_logos** into ' **www/** ' folder, add here yours tv logos with **.png** extension
 2. Add the webos player custom template **wosp-template.yaml** to **button_card_templates:**
-3. ### Add a package for every webos tv
-  1. Add a package **wosp-package.yaml**  into the packages folder
-  2. Rename file to refer the tv. Es: wosp-package_bedroom.yaml or wosp-package_livingroom.yaml
-  3. replace all occurences of **WOSP_ENTITY** with the webos media_player object_id
-     Ex: media_player.**bedroom_tv** --> replace WOSP_ENTITY with bedroom_tv
-  4. - edit your favorite channels
-
+3. ### Make a webos player to control a tv
+   Add a package **wosp-package.yaml**  into the packages folder, and rename it to refer the tv.
+   Ex: wosp-package_bedroom.yaml or wosp-package_livingroom.yaml
+   Into the renamed package:
+     * replace all occurences of **WOSP_ENTITY** with the webos media_player object_id
+       Ex: media_player.**bedroom_tv** --> replace WOSP_ENTITY with bedroom_tv
+     * edit your favorite channels after *favorites* field
+       Ex:
+       ```
+         options: >
+           {{ [
+             'favorites'
+           , 'channel 1'
+           , 'channel 2'
+           , 'channel 3' ] }}
+       ```
 ## Troubleshooting
-# 3 - if you have a webos version x, replace "Live TV" with correct name of channels source
-#     Ex: for italian language is "Canali TV"
+if you have a webos version x, replace "Live TV" with correct name of channels source
+Ex: for italian language is "Canali TV"
 
 
