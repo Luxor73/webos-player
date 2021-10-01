@@ -1,5 +1,5 @@
 # webos-player
-A custom mod webos player compact size for Home Assistant Lovelace
+A compact size custom mod webos player for Home Assistant Lovelace
 
 ![wosp04](https://user-images.githubusercontent.com/47286900/135503828-a5a50469-71ab-4dca-bd35-f47422d25306.png)
 ![wosp05](https://user-images.githubusercontent.com/47286900/135503838-bd0fc489-81cb-4c75-a79f-405a5596cec3.png)
@@ -76,8 +76,7 @@ webostv:
     E.g: for italian language is "Canali TV"  
     In this case need modify the name on the package, replacing "Live TV" with correct name of tv channels source
 
-    From
-    ```
+    From ```
     variables:
       source: "Live TV"
     ```
