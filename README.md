@@ -70,9 +70,10 @@ webostv:
            , 'channel 2'
            , 'channel 3' ] }}
        ```
-    Repeat step 3 for every tv device
-### Troubleshooting
-if you have a webos version x, replace "Live TV" with correct name of channels source
-Ex: for italian language is "Canali TV"
+    Repeat step 3 for every tv device  
+    #### Warning
+    in some webos versions the name of tv channels source is different from 'Live TV', because depends on the system language.  
+    E.g: for italian language is "Canali TV"  
+    In this case need modify the name on the package, replacing "Live TV" with correct name of channels source
 
 
