@@ -52,9 +52,9 @@ webostv:
         - ...
 ```
 ## Instructions
-1. Put **tv_logos** folder into ' **www/** ' directory, add here yours tv logos with **.png** extension
+1. Download **tv_logos** folder into ' **www/** ' directory, add here yours tv logos with **.png** extension
 2. Add the webos player custom template **wosp-template.yaml** to **button_card_templates:**
-3. Add a package **wosp_package.yaml**  into the packages folder, and rename it for one specific tv device.  
+3. Put a package **wosp_package.yaml**  into the packages folder, and rename it for one specific tv device.  
    E.g.: *wosp_package_my_tv.yaml* or *wosp_package_bedroom_tv.yaml*.  
      
    Into the renamed package:
