@@ -84,4 +84,11 @@ webostv:
        variables:
          source: "Canali TV"
        ```
-4. Repeat step 3 for every tv device  
+   \*Repeat step 3 for every tv device  
+## Add webos player to lovelace  
+      ```
+      - type: 'custom:button-card'
+        entity: media_player.tv_camera
+        template: wosp
+      ```
+ 
