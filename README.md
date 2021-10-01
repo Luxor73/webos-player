@@ -54,7 +54,7 @@ webostv:
 ## Instructions
 1. Download **tv_logos** into ' **www/** ' folder, add here yours tv logos with **.png** extension
 2. Add the webos player custom template **wosp-template.yaml** to **button_card_templates:**
-3. ### Set wosp entities for one webos tv
+3. #### Set wosp entities for one webos tv
    Add a package **wosp-package.yaml**  into the packages folder, and rename it for the specific tv.  
    E.g.: wosp-package_my_tv.yaml or wosp-package_bedroom.yaml or wosp-package_livingroom.yaml.
    Into the renamed package:
