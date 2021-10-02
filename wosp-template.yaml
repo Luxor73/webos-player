@@ -704,8 +704,8 @@ wosp:
                     `linear-gradient(37deg, rgba(0, 0, 0,.3), rgba(0, 0, 0,.1) 45%)`,
                 `url("${variables.bg_url}")`];
           ]]]
-      - background-size: cover, cover, auto 90px, cover, cover, cover  # auto 90px 120px auto
-      - background-position: center, center, left 25% center, center, center, center #left 42px center# right 14px center #right 4px bottom 40px
+      - background-size: cover, cover, 40%, cover, cover, cover  # auto 90px 120px auto
+      - background-position: center, center, left 25% center, center, center, center  #left 42px center# right 14px center #right 4px bottom 40px 
       - background-repeat: no-repeat
       # Card colors
       - --wosp-background-shadow: rgba(0, 0, 0, .2)
