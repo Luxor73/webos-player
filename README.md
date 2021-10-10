@@ -9,6 +9,11 @@ A compact size custom mod webos player for Home Assistant Lovelace
 ![wosp08](https://user-images.githubusercontent.com/47286900/135503867-4eaf1517-88dc-4a96-995a-1255e02381a6.png)
 ![wosp02](https://user-images.githubusercontent.com/47286900/135503789-744eed7a-a5f6-4137-8ffa-39bc92afb19f.png)
 
+### Update - Added volume shadow
+![vol shadow](https://user-images.githubusercontent.com/47286900/136692550-6d485dd9-c4de-4ac4-8987-5abeff2070c4.png)
+![vol shadow2](https://user-images.githubusercontent.com/47286900/136692565-5c8ecc2d-df09-42c4-999c-e39c569e48c8.png)
+
+
 # Features
 * navigator pad
 * keynumber pad
