@@ -604,6 +604,7 @@ wosp-select:
             }
         entities:
           - entity: '[[[ return entity.entity_id ]]]'
+            icon: '[[[ return variables.icon ]]]'
             card_mod:
               style:
                 ha-paper-dropdown-menu:
@@ -647,7 +648,12 @@ wosp-select:
                       width: 40px;
                     } 
                     :host state-badge {
-                      display: none;
+                      position: absolute;
+                      width: 30px;
+                      margin-left: 5px;
+                      margin-top: -3px;
+                      margin-bottom: 3px;
+                      color: var(--wosp-select-icon-color);
                     }
                     :host ha-paper-dropdown-menu {
                       margin-left: 0px;
@@ -705,7 +711,7 @@ wosp:
                 `url("${variables.bg_url}")`];
           ]]]
       - background-size: cover, cover, 40%, cover, cover, cover  # auto 90px 120px auto
-      - background-position: center, center, left 25% center, center, center, center  #left 42px center# right 14px center #right 4px bottom 40px 
+      - background-position: center, center, left 25% center, center, center, center #left 25% center #left 42px center# right 14px center #right 4px bottom 40px
       - background-repeat: no-repeat
       # Card colors
       - --wosp-background-shadow: rgba(0, 0, 0, .2)
@@ -742,7 +748,7 @@ wosp:
       - width: 24px
       - color: var(--wosp-icon-color)
     grid:
-      - grid-template-areas: '"i       n      n         fav_icon      sources_icon  sources_icon sources_icon power_bt    "
+      - grid-template-areas: '"i       n      n         fav_combo     source_combo  source_combo source_combo power_bt    "
                               ".       l      l         fav_combo     source_combo  source_combo source_combo power_bt    "
                               ".       .      .         back_bt       home_bt       home_bt      home_bt      exit_bt     "
                               "navi    navi   navi      back_bt       home_bt       home_bt      home_bt      exit_bt     "
@@ -754,10 +760,6 @@ wosp:
       - grid-template-rows: 40px 5px 10px 40px 45px 35px 10px 40px
     custom_fields:
       volume:
-        - align-self: end
-      source_combo:
-        - align-self: end
-      fav_combo:
         - align-self: end
       next_tr_bt:
         - align-self: end
@@ -778,15 +780,9 @@ wosp:
         - background: "linear-gradient(var(--wosp-background-shadow), rgba(255,255,255, .2)) no-repeat"
         - border-radius: 50%
         - padding-top: 5px
-        - justify-self: end        
+        - justify-self: end
 
   custom_fields:
-    sources_icon: >
-      [[[ return `<ha-icon icon="mdi:format-list-bulleted"
-            style="width: 24px; height: 24px; color: var(--wosp-select-icon-color);"></ha-icon>` ]]]
-    fav_icon: >
-      [[[ return `<ha-icon icon="mdi:star-outline"
-            style="width: 24px; height: 24px; color: var(--wosp-select-icon-color);"></ha-icon>` ]]]
     panel_icon: >
       [[[ return `<ha-icon icon="mdi:unfold-more-vertical"
             style="width: 24px; height: 24px; color: var(--accent-color);"></ha-icon>` ]]]
@@ -959,11 +955,15 @@ wosp:
       card:
         type: custom:button-card
         entity: '[[[ return "select.sources_" + entity.entity_id.split(".")[1] ]]]'
+        variables:
+          icon: "mdi:format-list-bulleted"
         template: wosp-select
     fav_combo:
       card:
         type: 'custom:button-card'
         entity: '[[[ return "select.favorites_" + entity.entity_id.split(".")[1] ]]]'
+        variables:
+          icon: "mdi:star-outline"
         template: wosp-select
     volume:
       card:
